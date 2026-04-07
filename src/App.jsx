@@ -1,7 +1,8 @@
 // Academia Gym - Single Page App
 // Layout moderno escuro com laranja
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { motion } from 'framer-motion';
+
 import {
   Clock,
   Dumbbell,
@@ -29,8 +30,31 @@ const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
       document.body.style.overflow = 'unset';
     }
   }, [isMobileMenuOpen]);
-  useEffect(() => {
+useEffect(() => {
     // Smooth scroll polyfill if needed
+  }, []);
+
+  // IntersectionObserver for animations
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          // Don't observe again - one time animation
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    const animateElements = document.querySelectorAll('.animate-slide, .animate-slide-left, .animate-slide-right, .animate-scale');
+    animateElements.forEach(el => observer.observe(el));
+
+    return () => observer.disconnect();
   }, []);
 
   const scrollToSection = (sectionId) => {
@@ -119,33 +143,20 @@ const whatsappUrl = 'https://wa.me/556185230335?text=Olá! Quero começar na Sli
       {/* Hero Section */}
       <section id="Início" className="scroll-mt-20 min-h-screen bg-black flex items-center justify-center relative overflow-hidden pt-20" style={{backgroundImage: `url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80')`, backgroundSize: 'cover', backgroundPosition: 'center'}}>
         <div className="container mx-auto px-6 text-center relative z-10">
-          <motion.h1 
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-5xl md:text-7xl font-black bg-gradient-to-r from-orange-500 via-orange-400 to-orange-600 bg-clip-text text-transparent mb-6 leading-tight"
-          >
+          <h1 className="animate-slide text-5xl md:text-7xl font-black bg-gradient-to-r from-orange-500 via-orange-400 to-orange-600 bg-clip-text text-transparent mb-6 leading-tight">
             RESULTADO DE VERDADE COMEÇA AQUI
-          </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-2xl text-gray-300 mb-6 max-w-2xl mx-auto"
-          >
+          </h1>
+          <p className="animate-slide text-xl md:text-2xl text-gray-300 mb-6 max-w-2xl mx-auto">
             Academia de alto nível em Valparaíso de Goiás
-          </motion.p>
-          <motion.a
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+          </p>
+          <a
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-xl font-bold px-12 py-6 rounded-full shadow-2xl shadow-orange-500/50 hover:shadow-orange-500/70 transition-all duration-300 uppercase tracking-wide"
+            className="animate-slide inline-block bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-xl font-bold px-12 py-6 rounded-full shadow-2xl shadow-orange-500/50 hover:shadow-orange-500/70 transition-all duration-300 uppercase tracking-wide"
           >
             PLANOS A PARTIR DE 75,90
-          </motion.a>
+          </a>
         </div>
         {/* Background overlay */}
         <div className="absolute inset-0 bg-black/70"></div>
@@ -156,29 +167,23 @@ const whatsappUrl = 'https://wa.me/556185230335?text=Olá! Quero começar na Sli
       {/* Shortcuts Section */}
       <section id="Servicos" className="scroll-mt-20 py-24 bg-gray-900/50">
         <div className="container mx-auto px-6">
-          <motion.h2 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-5xl font-bold text-center mb-20 bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent"
-          >
+          <h2 className="animate-slide text-4xl md:text-5xl font-bold text-center mb-20 bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent">
             Serviços Rápidos
-          </motion.h2>
+          </h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 max-w-6xl mx-auto">
             {[
-              { icon: <Clock className="w-12 h-12 flex-shrink-0 text-gray-300 group-hover:text-white group-hover:scale-110 transition-all duration-300" />, label: 'Horários', id: 'horarios' },
-              { icon: <Dumbbell className="w-12 h-12 flex-shrink-0 text-gray-300 group-hover:text-white group-hover:scale-110 transition-all duration-300" />, label: 'Musculação', id: 'musculacao' },
-              { icon: <Star className="w-12 h-12 flex-shrink-0 text-gray-300 group-hover:text-white group-hover:scale-110 transition-all duration-300" />, label: 'Destaques', id: 'destaques' },
-              { icon: <Flame className="w-12 h-12 flex-shrink-0 text-gray-300 group-hover:text-white group-hover:scale-110 transition-all duration-300" />, label: 'Funcional', id: 'funcional' },
-              { icon: <DollarSign className="w-12 h-12 flex-shrink-0 text-gray-300 group-hover:text-white group-hover:scale-110 transition-all duration-300" />, label: 'Valores', id: 'valores' },
-              { icon: <MapPin className="w-12 h-12 flex-shrink-0 text-gray-300 group-hover:text-white group-hover:scale-110 transition-all duration-300" />, label: 'Localização', id: 'localizacao' }
+{ icon: <Clock className="w-12 h-12 flex-shrink-0 text-gray-300 group-hover:text-white transition-all duration-300" />, label: 'Horários', id: 'horarios' },
+{ icon: <Dumbbell className="w-12 h-12 flex-shrink-0 text-gray-300 group-hover:text-white transition-all duration-300" />, label: 'Musculação', id: 'musculacao' },
+{ icon: <Star className="w-12 h-12 flex-shrink-0 text-gray-300 group-hover:text-white transition-all duration-300" />, label: 'Destaques', id: 'destaques' },
+{ icon: <Flame className="w-12 h-12 flex-shrink-0 text-gray-300 group-hover:text-white transition-all duration-300" />, label: 'Funcional', id: 'funcional' },
+{ icon: <DollarSign className="w-12 h-12 flex-shrink-0 text-gray-300 group-hover:text-white transition-all duration-300" />, label: 'Valores', id: 'valores' },
+{ icon: <MapPin className="w-12 h-12 flex-shrink-0 text-gray-300 group-hover:text-white transition-all duration-300" />, label: 'Localização', id: 'localizacao' }
             ].map((service, index) => (
-              <motion.button
+  <motion.button
                 key={service.id}
-                initial={{ opacity: 0, scale: 0.8, y: 30 }}
-                whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                className="animate-slide group relative w-full aspect-square bg-gradient-to-br from-gray-800 to-gray-700 hover:from-orange-500 hover:to-orange-600 rounded-2xl p-6 flex flex-col items-center justify-center text-center shadow-xl hover:shadow-2xl hover:shadow-orange-500/30 transition-all duration-500 cursor-pointer hover:rotate-3 hover:scale-105 border-2 border-transparent hover:border-orange-500/50"
+                style={{ '--stagger-delay': `${index * 0.1}s` }}
                 onClick={() => scrollToSection(service.id)}
-                className="group relative w-full aspect-square bg-gradient-to-br from-gray-800 to-gray-700 hover:from-orange-500 hover:to-orange-600 rounded-2xl p-6 flex flex-col items-center justify-center text-center shadow-xl hover:shadow-2xl hover:shadow-orange-500/30 transition-all duration-500 cursor-pointer hover:rotate-3 hover:scale-105 border-2 border-transparent hover:border-orange-500/50"
               >
 {service.icon}
                 <span className="font-bold text-sm md:text-base">{service.label}</span>
