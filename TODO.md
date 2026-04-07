@@ -1,0 +1,1 @@
+# TODO: Implement Mobile Hamburger Navigation\n\n## Steps:\n\n- [ ] Step 1: Add useEffect for body scroll lock when mobile menu open\n- [ ] Step 2: Add hamburger toggle button in navbar\n- [ ] Step 3: Add mobile menu dropdown with navigation items\n- [ ] Step 4: Test and verify functionality\n- [ ] Step 5: Complete task\n
