@@ -125,7 +125,7 @@ const whatsappUrl = 'https://wa.me/556185230335?text=Olá! Quero começar na Sli
             transition={{ duration: 0.8 }}
             className="text-5xl md:text-7xl font-black bg-gradient-to-r from-orange-500 via-orange-400 to-orange-600 bg-clip-text text-transparent mb-6 leading-tight"
           >
-            TREINE NA SLIM CORPUS
+            RESULTADO DE VERDADE COMEÇA AQUI
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0, y: 30 }}
@@ -144,7 +144,7 @@ const whatsappUrl = 'https://wa.me/556185230335?text=Olá! Quero começar na Sli
             rel="noopener noreferrer"
             className="inline-block bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-xl font-bold px-12 py-6 rounded-full shadow-2xl shadow-orange-500/50 hover:shadow-orange-500/70 transition-all duration-300 uppercase tracking-wide"
           >
-            Começar Agora no WhatsApp
+            PLANOS A PARTIR DE 75,90
           </motion.a>
         </div>
         {/* Background overlay */}
