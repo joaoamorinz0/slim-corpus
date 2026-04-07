@@ -222,7 +222,7 @@ const whatsappUrl = 'https://wa.me/556185230335?text=Olá! Quero começar na Sli
               whileInView={{ opacity: 1, x: 0 }}
               className="relative h-96 bg-gradient-to-br from-gray-700 to-gray-800 rounded-3xl shadow-2xl shadow-orange-500/20 overflow-hidden"
             >
-              <img src="gym.jpg" />
+              <img src="/gym.jpg" alt="academia" />
             </motion.div>
           </div>
         </div>
